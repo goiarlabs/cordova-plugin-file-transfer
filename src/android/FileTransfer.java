@@ -680,24 +680,7 @@ public class FileTransfer extends CordovaPlugin {
          * return a Whitelist object. Since the fixed whitelist is removed in Cordova 4.x,
          * the correct call now is to shouldAllowRequest from the plugin manager.
          */
-        Boolean shouldAllowRequest = null;
-        if (isLocalTransfer) {
-            shouldAllowRequest = true;
-        }
-        if (shouldAllowRequest == null) {
-            shouldAllowRequest = true
-        }
-        if (shouldAllowRequest == null) {
-            try {
-                Method gpm = webView.getClass().getMethod("getPluginManager");
-                PluginManager pm = (PluginManager)gpm.invoke(webView);
-                Method san = pm.getClass().getMethod("shouldAllowRequest", String.class);
-                shouldAllowRequest = (Boolean)san.invoke(pm, source);
-            } catch (NoSuchMethodException e) {
-            } catch (IllegalAccessException e) {
-            } catch (InvocationTargetException e) {
-            }
-        }
+        Boolean shouldAllowRequest = true;
 
         if (!Boolean.TRUE.equals(shouldAllowRequest)) {
             LOG.w(LOG_TAG, "Source URL is not in white list: '" + source + "'");
